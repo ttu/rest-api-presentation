@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>REST API</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# REST API
+
+---
+
+# Agenda
+
+1. What is REST API?
+1. Response & Requests
+1. Query examples
+1. Implementation
+1. Problems / other options
+---
+
+## Install
+
+### Insomnia
+
+[Insomnia API Client](https://github.com/Kong/insomnia)
+
+### Fake JSON REST API
+
+```sh
+git clone https://github.com/ttu/dotnet-fake-json-server.git
+cd dotnet-fake-json-server
+docker build -t fakeapi .
+docker run -it -p 57602:57602 --name fakeapi fakeapi 
+```
+
+Open [http://localhost:57602/swagger/](http://localhost:57602/swagger/)
+
+Import Fake JSON workspace to Insomnia from [URL](https://raw.githubusercontent.com/ttu/dotnet-fake-json-server/master/docs/FakeServer_Insomnia_Workspace.json)
+
+---
+
+## API
+
+Application Programming Interface
+
+--
+
+* Set of rules that define how applications communicate with each other
+
+---
+
+## REST
+
+__RE__presentational __S__tate __T__ransfer
+
+* Refers to a style of web architecture
+* Resources living each on its own URL
+* Manipulated exclusively through HTTP-protocol
+* Stateless
+* Based on documents
+
+???
+
+* Refers to a style of web architecture that has many underlying characteristics and governs the behavior of clients and servers
+* Connection is stateless and all the information necessary for the server to understand the request is in the request
+* Documents are a simple model of communication
+
+---
+
+## REST API
+
+A REST API defines a set of functions which developers can perform requests and receive responses via HTTP protocol.
+
+--
+
+If you implement a REST API, any developer who will use it should be familiar how to interact with your API.
+
+???
+
+* REST API is a specification how API should be organized and how it should work
+
+---
+
+---
+## Request
+
+* Method
+* Endpoint (route)
+* Headers
+* Body
+
+--
+
+```json
+[Method] [Endpoint]
+[Headers]
+[Body]
+```
+
+--
+
+```json
+POST https://api.example.com/api/users
+Headers:
+Authorization: Bearer {your access token}
+Body:
+{ 'name': 'James', 'age': 40 }
+```
+
+???
+
+* With HTTP 1.x everything is plain text
+---
+
+### Methods
+
+HTTP defines a set of request methods to indicate the desired action to be performed for a given resource.
+
+--
+
+* __GET__
+  * Fetch
+* __POST__
+  * Create
+* __PUT__
+  * Replace (Update)
+* __DELETE__
+  * Delete
+* __PATCH__
+  * Update
+
+--
+
+
+* __HEAD__
+  * Get the metadata and headers without receiving response body
+* __OPTIONS__
+  * Return allowed methods
+
+???
+
+* PATCH:
+  * Rarely used for updates
+  * With POST can have some race conditions
+* HEAD: https://github.com/ttu/dotnet-fake-json-server#head-method
+  * Get count of items, check if item exists without downloading the body
+  * Almost never used
+* OPTIONS: https://github.com/ttu/dotnet-fake-json-server#options-method
+  * Almost never used
+* Request method can be safe, idempotent, or cacheable
+* Idempotent
+  * making multiple identical requests has the same effect as making a single request
+  * GET, PUT, DELETE, PATCH
+  * POST creates new resource with each call
+
+---
+
+### Endpoint / Url
+
+Endpoint is one end of a communication channel. Often this would be represented as a URL of a server or service.
+
+
+__Root-endpoint__: `https://localhost:5678/api`
+
+__Path__: `/:collection/:id`
+
+__Query parameters__: `?query1=value1&query2=value2`
+
+--
+
+----
+
+#### Example
+
+Get users with id 1:
+```txt
+http://localhost:5678/api/users/1
+```
+
+--
+
+Get users from Helsinki:
+```txt
+http://localhost:5678/api/users/?city=helsinki
+```
+
+
+???
+
+Path defines the requested resource
+
+---
+
+### Functions as endpoints:
+
+* Get companies
+ * `/get-companies`
+
+
+* Add new company
+ * `/add-new-company`
+ * `body: new company data`
+
+
+* Get company employees
+ * `/get-company-employees` 
+ * `body: companyId`
+
+
+* Get single employee from the company
+ * `/get-single-company-employee`
+ * `body: companyId, employeeId`
+
+???
+
+* Name of the endpoint defines the action
+* POST method should be used with functions
+* Often returns always 200, even on errors
+---
+
+### REST way
+
+The URL should only contain resources (nouns) not actions or verbs.
+
+HTTP methods define the action.
+
+--
+
+* Get companies 
+ * `GET /companies`
+
+
+* Add new company
+ * `POST /companies`
+ * `body: new company data`
+
+
+* Update company
+ * `PUT /companies/:companyId`
+ * `body: company data`
+
+
+* Get company employees
+ * `GET /companies/:companyId/employees`
+
+
+* Get single employee from the company
+ * `GET /companies/:companyId/employees/:employeeId`
+
+---
+
+### Endpoint examples from GitHub
+
+__root-endpoint__: `https://api.github.com/`
+
+https://developer.github.com/v3/users/
+
+* `/users/:username`
+* `/users/:username/repos`
+* `/users/:username/repos/:repoid`
+
+https://developer.github.com/v3/repos/#list-all-public-repositories
+
+* `/repositories`
+* `/repositories/:id`
+
+https://developer.github.com/v3/repos/#get
+
+* `/repos/:owner/`
+* `/repos/:owner/:repo/pulls`
+* `/repos/:owner/:repo/pulls/:number`
+
+???
+
+NOTE: Show with Insomnia
+
+---
+
+### Headers
+
+HTTP Headers are property-value pairs that are separated by a colon.
+
+-----
+
+```sh
+$ curl -H "Accept: application/json" https://api.github.com --verbose
+```
+
+```json
+> GET / HTTP/1.1
+> Host: api.github.com
+> User-Agent: curl/7.47.0
+> Accept: application/json
+```
+
+---
+
+* __Authorization__ - contains user authorization information.
+ * `Authorizaation: Bearer azasdasdasf....asfasfasfsa`
+
+* __Accept__ - client tells what kind of data is requested.
+ * `ACCEPT: application/json`
+
+* __Content-Type__ - in request client tells type of the body. In response server tells the type of the response body.
+ * `CONTENT-TYPE: application/vnd.com.example.customer+xml`
+
+* __Allow__ - OPTIONS method return list of allowed methods. 
+ * `Allow: GET POST`
+
+* __Last-Modified__ - server tells a time when it thinks that resource was modified.
+ * `Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT`
+
+* And 100 others...
+
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+
+???
+
+MDN has one of the best web documentation
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+
+---
+
+### Body
+
+Body contains information you want to be sent to the server.
+
+--
+
+JSON (JavaScript Object Notation) is a common format for sending and requesting data through a REST API.
+
+This option is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
+
+```json
+{
+  "property1": "value1",
+  "property2": "value2",
+  "property3": "value3"
+}
+```
+
+???
+
+* Other: strucutured formdata, xmld, binary
+---
+
+### Query operations
+
+* __Query__:
+ * `GET /companies`
+
+
+* __Sorting__: 
+ * `GET /companies/1/employees?sort=salary_asc`
+
+
+* __Filter__: 
+ * `GET /companies?country=finland&domain=2`
+
+
+* __Filter operators__: 
+ * `GET /companies?revenue_gt=20000000`
+
+???
+
+* No standards
+* Show from GitHub
+
+---
+
+## Response
+
+* Headers
+* Return code
+* Body
+
+---
+
+### Headers
+
+```json
+< HTTP/1.1 200 OK
+< Server: GitHub.com
+< Date: Fri, 09 Feb 2018 05:59:24 GMT
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 2165
+< Status: 200 OK
+< X-RateLimit-Limit: 60
+< X-RateLimit-Remaining: 59
+< X-RateLimit-Reset: 1518159564
+< Cache-Control: public, max-age=60, s-maxage=60
+< Vary: Accept
+< ETag: "1f1633719eaf8a94c8e4fb324cee3058"
+< X-GitHub-Media-Type: github.v3
+< Access-Control-Expose-Headers: ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+< Access-Control-Allow-Origin: *
+< Content-Security-Policy: default-src 'none'
+< Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+< X-Content-Type-Options: nosniff
+< X-Frame-Options: deny
+< X-XSS-Protection: 1; mode=block
+< X-Runtime-rack: 0.007814
+< X-GitHub-Request-Id: 05FE:2194:3B8CCF:6F44E3:5A7D38BA
+```
+
+???
+
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/
+* __X-RateLimit-Limit__: request limit
+* __Etag__: an identifier for a specific version of a resource
+---
+
+### Return Codes
+
+#### 200 Success
+
+* 200 OK
+* 201 Created
+* 204 No Content
+
+--
+
+
+#### 300 Redirect
+
+* 304 Not Modified
+
+--
+
+
+#### 400 Client Error
+
+* 400 Bad Request
+* 401 Unauthorized
+* 403 Forbidden
+* 404 Not Found
+
+--
+
+
+#### 500 Server Error
+
+* 500 Internal Server Error
+* 503 Service Unavailable
+
+???
+
+* Created might have new id in response and location in headers
+* 303 See Other used when async job is ready and response has a location header to new resource
+* 4xx codes are used to tell the client that a fault has taken place on THEIR side. They should not retransmit the same request again, but fix the error first.
+---
+
+### Correct codes for methods
+
+* `GET /api/:collection/:id`
+
+```
+200 OK          : Item is found
+400 Bad Request : Collection is not found
+404 Not Found   : Item is not found
+```
+
+--
+
+
+* `POST /api/:collection`
+
+```
+201 Created     : New item is created
+400 Bad Request : New item is null
+```
+
+--
+
+
+* `PUT /api/:collection/:id`
+
+```
+204 No Content  : Item is replaced
+400 Bad Request : Item is null
+404 Not Found   : Item is not found
+```
+
+--
+
+
+* `PATCH /api/:collection/:id`
+
+```
+204 No Content  : Item updated
+400 Bad Request : PATCH is empty / not valid
+404 Not Found   : Item is not found
+```
+
+--
+
+
+* `DELETE /api/:collection/:id`
+
+```
+204 No Content  : Item deleted
+404 Not Found   : Item is not found
+```
+
+---
+
+### PATCH
+
+Partial updates for resources. Implementation is often complex, so PUT is used instead.
+
+Different patch formats
+* [Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396)
+```json
+{
+  "baz":"bar",
+  "hello: {
+    "foo": null
+  }
+}
+```
+* [JSON Patch](http://jsonpatch.com/)
+```json
+[
+  { "op": "replace", "path": "/baz", "value": "boo" },
+  { "op": "add", "path": "/hello", "value": ["world"] },
+  { "op": "remove", "path": "/foo" }
+]
+```
+
+???
+* If a library supports this, then easy to take in use
+---
+
+### API Versioning
+
+##### No Versioning
+
+- Start with this
+- Adding and removing fields from return value might not require versioning if client can handle it
+- Bigger changes require new version
+--
+
+
+##### Uri
+
+```json
+https://developer.github.com/v2/repos/
+https://developer.github.com/v3/repos/
+```
+--
+
+
+##### Querystring
+
+```json
+https://developer.github.com/repos/?version=2
+https://developer.github.com/repos/?version=3
+```
+--
+
+##### Header
+
+```json
+GET https://developer.github.com/repos/ HTTP/1.1
+Custom-Header: api-version=3
+```
+
+???
+
+* Github examples have v3 in url
+---
+
+---
+
+## Safe
+
+Method is safe if it doesn't alter the state of the server (read-only).
+
+--
+
+Common __safe methods:__ GET, HEAD, OPTIONS
+
+Common __unsafe methods:__ PUT, DELETE, POST
+
+--
+
+* The client doesn't request any server change itself, and therefore won't create an unnecessary load or burden for the server.
+
+* Browsers can call safe methods without fearing to cause any harm to the server. This allows them to perform activities like pre-fetching without risk.
+
+--
+
+GET methods shouldn't cause too much load on the server as requester might assume that it is safe to make multiple calls.
+
+---
+
+## Idempotency
+
+Method is __idempotent__ if an __identical__ request can be made __once or several times__ in a row with the same effect while leaving the server in the same state.
+
+--
+
+An idempotent method should not have any side-effects (except for keeping statistics). 
+
+--
+
+__IDEMPOTENT:__ GET, HEAD, PUT, DELETE
+
+__NOT:__ POST
+
+--
+
+To be idempotent, only the actual back-end state of the server is considered. The status code returned by each request may differ: 
+* The first call of a DELETE will likely return a 200
+* Successive ones will likely return a 404
+
+???
+
+* If implemented correctly. Never trust.
+
+---
+
+## Caching & Mid Air Collisions
+
+__Caching__ saves server for sending payload if client has already most recent version
+
+__*Mid air collisions__ prevent updating data that has already been changed
+
+--
+
+Both use __The ETag (or entity tag)__ HTTP response header
+
+--
+
+* __ETag__
+  * Identifier for a specific version of a resource
+  * Hash of resource data
+
+
+--
+
+* __GET__
+  * Verify that data has not changed with `If-None-Match` header
+  * Data has not changed: 304 Not Modified
+
+
+--
+
+* __PUT__
+  * Verify that data is still the same as client's original data `If-Match` header
+  * If data is not same: 412 Precondition failed
+
+???
+* Show from https://api.github.com/users/ttu
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
+* These are not so commonly used
+* For ETag GET saves server from sending large payloads
+* PUT rarely used. Last update is always fine.
+
+---
+
+## Errors & Problem Details
+
+There are many ways how APIs return errors. Check from services API documentation how service implements errors.
+
+E.g. GitHub's response for `404`
+
+```json
+{
+	"message": "Not Found",
+	"documentation_url": "https://docs.github.com/rest"
+}
+```
+
+--
+
+One recommendation is to use [Problem Details](https://tools.ietf.org/html/rfc7807) when returning errors.
+
+```json
+{
+  type: string
+  title: string
+  description: string
+}
+```
+
+???
+
+* Problem details are standardized way. Less to decide with the team.
+
+---
+
+## Problem Details
+
+```json
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+Content-Language: en
+{
+    "type": "https://example.com/probs/out-of-credit",
+    "title": "You do not have enough credit.",
+    "detail": "Your current balance is 30, but that costs 50.",
+    "instance": "/account/12345/msgs/abc",
+    "balance": 30,
+    "accounts": ["/account/12345","/account/67890"],
+    "status": 403
+}
+```
+
+Details can have also any number of additional fields. These should be always same for each type.
+
+If API is designed to communicate with front-end and user locale is known, then title and description should be localized for the client.
+
+---
+
+## HATEOAS
+
+__H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a principle that hypertext links should be used to create a better navigation through the API.
+
+```json
+{
+  "id": 711,
+  "manufacturer": "bmw",
+  "model": "X5",
+  "seats": 5,
+  "drivers": [
+    {
+      "id": "23",
+      "name": "Stefan Jauker",
+      "links": [
+        {
+          "rel": "self",
+          "href": "/api/v1/drivers/23"
+        },
+        {
+          "rel": "address",
+          "href": "/api/v1/drivers/23/address"
+        }
+      ]
+    }
+  ]
+}
+```
+
+???
+
+* Client doesn't need to know how to interact with an application for different actions, as all the metadata will be embedded in responses from the server.
+---
+
+# REST API Maturity Level
+
+Richardson Maturity Model
+
+0. HTTP
+1. Resources
+2. HTTP Verbs
+3. HATEOAS
+
+https://martinfowler.com/articles/richardsonMaturityModel.html
+
+
+???
+ 
+* https://blog.restcase.com/4-maturity-levels-of-rest-api-design/
+* Some might add versioning to the list
+---
+
+## Other APIs - Request / Response
+
+1. SOAP
+  * SOAP is an XML message format used in Web service interactions. SOAP messages are typically sent over HTTP or JMS, but other transport protocols can be used. The use of SOAP in a specific Web service is described by a WSDL definition.
+1. XML & JSON RPC
+  * RPC (Remote procedure call) is like a remote function call
+  * e.g. https://api.slack.com/web
+1. API Query Layers
+  * OData
+  * GraphQL
+1. Hypermedia Media Types
+  * JSON API (application/vnd.api+json)
+    * http://jsonapi.org/examples/
+  * Siren (application/vnd.siren+json)
+
+---
+
+## Other APIs - Event
+
+1. WebHooks
+  * Incoming Webhooks are a simple way to post messages from external sources into the service
+  * Outgoing webhooks will send an HTTP POST request to your specified URL
+1. Websub
+  * Publish/Subscripbe model
+1. Server Sent Events (SSE)
+  * One-way streaming APIs which can be used to send regular, and sustained updates, which can be more efficient than regular polling of an API
+1. Websockets
+  * Two-way API streams that require data be both sent and received, providing full-duplex communication channels over a single TCP connection
+
+---
+
+## Other APIs - Other
+
+1. Kafka / RabbitMQ / ESB / MessageBus
+  * Message Buses can also act as APIs
+1. Message Queuing Telemetry Transport (MQTT), ZeroMQ, gRPC (ProtoBuf)
+  * https://grpc.io/
+
+---
+
+## Problems with REST
+
+* No one follows standards
+* No more precise specifications
+* Just a vague "RESTful philosophy"
+* Prone to endless metaphysical debates
+* Many workarounds
+
+--
+
+### Reality
+
+REST API's are often not actual REST API's, but just requests over HTTP + JSON with REST-like endpoint structure
+
+---
+
+## Problems with REST
+
+#### Resource model is not best for every use case
+
+##### Send shipment notification
+  * PUT `/api/shipments`
+    * Update resource's send_notification
+  * POST `/api/shipments/send-notifications`
+    * Create new send_notification resource 
+
+--
+
+
+##### Cancel a task
+  * DELETE `/api/tasks`
+    * Deltete a task resource
+  * PUT `/api/tasks`
+    * Set active-property from task resource to false
+
+--
+
+
+<br/>
+<br/>
+Maybe better to use functions over HTTP (Remote Procedure Calls)?
+
+`/api/send-shipment-notification` and `/api/cancel-task`
+
+???
+* Have to know what actions will happen when resource is updated
+
+---
+
+## Problems with REST
+
+#### JSON
+
+There are only two times when JSON is a particularly good choice: 
+
+--
+
+
+* Messages to be human-readable
+--
+
+* Consume it from JavaScript without using a library
+
+--
+
+JSON is not an important format for internal services
+
+--
+
+#### HTTP
+
+HTTP is maybe not the best protocol for modern days
+* 30-year-old protocol that was really only meant to be used for transferring hypermedia documents
+
+--
+
+<br/>
+<br/>
+Ditch HTTP and JSON and forget inter-developer REST holy wars
+
+Choose e.g. [gRPC](hhttps://grpc.io/docs/what-is-grpc/introduction/)
+
+or just use simple functions as endpoints (RPC).
+
+???
+
+* No standards -> lots of opinions -> war
+---
+
+## References
+
+* https://medium.freecodecamp.org/rest-is-the-new-soap-97ff6c09896d
+* http://habitatchronicles.com/2017/11/a-slightly-skeptical-perspective-on-rest/
+* https://blog.refineri.co.uk/the-good-way-to-rest-part-1-909566ae790
+* https://apievangelist.com/2018/02/03/api-is-not-just-rest/
+* https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9
+* https://developer.github.com/v3/
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      remark.macros.scale = function (percentage) {
+        var url = this;
+        return '<div style="text-align: center;"><img src="' + url + '" style="width: ' + percentage + '" /></div>';
+      };
+
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
