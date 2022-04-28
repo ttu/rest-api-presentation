@@ -528,10 +528,12 @@ This option is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ request
 
 ### PATCH
 
-Partial updates for resources. Implementation is often complex, so PUT is used instead.
+Partial updates for resources. Implementation is often complex, so PUT is used in simple APIs.
 
-Different patch formats
-* [Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396)
+Different patch formats:
+
+#### [Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396)
+
 ```json
 {
   "baz":"bar",
@@ -540,7 +542,9 @@ Different patch formats
   }
 }
 ```
-* [JSON Patch](http://jsonpatch.com/)
+
+#### [JSON Patch](http://jsonpatch.com/)
+
 ```json
 [
   { "op": "replace", "path": "/baz", "value": "boo" },
@@ -550,7 +554,7 @@ Different patch formats
 ```
 
 ???
-* If a library supports this, then easy to take in use
+* If a library supports PATCH, then easy to take in use
 ---
 
 ### API Versioning
@@ -592,9 +596,7 @@ Custom-Header: api-version=3
 * Github examples have v3 in url
 ---
 
----
-
-## Safe
+## Safe Methods
 
 Method is safe if it doesn't alter the state of the server (read-only).
 
@@ -646,7 +648,7 @@ To be idempotent, only the actual back-end state of the server is considered. Th
 
 __Caching__ saves server for sending payload if client has already most recent version
 
-__*Mid air collisions__ prevent updating data that has already been changed
+__Mid air collisions__ prevent updating data that has already been changed
 
 --
 
@@ -769,6 +771,22 @@ __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a p
 * Client doesn't need to know how to interact with an application for different actions, as all the metadata will be embedded in responses from the server.
 ---
 
+## API Security - Authentication
+
+1. API KEY
+1. Basic Auth
+1. Token
+
+---
+
+## API Security - Protecting Endpoints
+
+1. Caching
+1. Idempotency
+1. Prevent multiple same/similar POST requests
+
+---
+
 # REST API Maturity Level
 
 Richardson Maturity Model
@@ -845,7 +863,7 @@ REST API's are often not actual REST API's, but just requests over HTTP + JSON w
 
 ## Problems with REST
 
-#### Resource model is not best for every use case
+#### For actions, resource model is not always most understandable way to present what is wanted to preform
 
 ##### Send shipment notification
   * PUT `/api/shipments`
@@ -857,11 +875,10 @@ REST API's are often not actual REST API's, but just requests over HTTP + JSON w
 
 
 ##### Cancel a task
-  * DELETE `/api/tasks`
-    * Deltete a task resource
   * PUT `/api/tasks`
-    * Set active-property from task resource to false
-
+    * Set active-property from the task resource to false
+  * DELETE `/api/tasks`
+    * Delete the task resource
 --
 
 
@@ -905,7 +922,7 @@ HTTP is maybe not the best protocol for modern days
 
 <br/>
 <br/>
-Ditch HTTP and JSON and forget inter-developer REST holy wars
+Ditch REST, HTTP and JSON and forget inter-developer REST holy wars
 
 Choose e.g. [gRPC](hhttps://grpc.io/docs/what-is-grpc/introduction/)
 
