@@ -23,6 +23,8 @@ class: center, middle
 
 # REST API
 
+API Design Best Practices & Hypertext Transfer Protocol (HTTP)
+
 ---
 
 # Agenda
@@ -89,19 +91,18 @@ __RE__presentational __S__tate __T__ransfer
 
 ## REST API
 
-A REST API defines a set of functions which developers can perform requests and receive responses via HTTP protocol.
+A REST API defines a set of functions in which developers can perform requests and receive responses via HTTP protocol.
 
 --
 
-If you implement a REST API, any developer who will use it should be familiar how to interact with your API.
+If you implement a REST API, any developer who will use it should be familiar with how to interact with your API.
 
 ???
 
-* REST API is a specification how API should be organized and how it should work
+* REST API is a specification how API should be organized and of how it should work
 
 ---
 
----
 ## Request
 
 * Method
@@ -119,10 +120,11 @@ If you implement a REST API, any developer who will use it should be familiar ho
 
 --
 
-```json
+```txt
 POST https://api.example.com/api/users
 Headers:
-Authorization: Bearer {your access token}
+Authorization: Bearer AbCdEf123456
+CONTENT-TYPE: applicatin/json
 Body:
 { 'name': 'James', 'age': 40 }
 ```
@@ -153,7 +155,7 @@ HTTP defines a set of request methods to indicate the desired action to be perfo
 
 
 * __HEAD__
-  * Get the metadata and headers without receiving response body
+  * Get the metadata and headers without receiving a response body
 * __OPTIONS__
   * Return allowed methods
 
@@ -163,21 +165,24 @@ HTTP defines a set of request methods to indicate the desired action to be perfo
   * Rarely used for updates
   * With POST can have some race conditions
 * HEAD: https://github.com/ttu/dotnet-fake-json-server#head-method
-  * Get count of items, check if item exists without downloading the body
-  * Almost never used
+  * Get count of items, check if the item exists without downloading the body
+  * Rarely used
 * OPTIONS: https://github.com/ttu/dotnet-fake-json-server#options-method
-  * Almost never used
-* Request method can be safe, idempotent, or cacheable
-* Idempotent
-  * making multiple identical requests has the same effect as making a single request
-  * GET, PUT, DELETE, PATCH
-  * POST creates new resource with each call
+  * Rarely used
+* Request method can be
+  * Safe
+     * Won't make changes to any data (except logging etc.)
+  * Cacheable
+  * Idempotent
+     * making multiple identical requests has the same effect as making a single request
+     * GET, PUT, DELETE, PATCH
+     * POST creates new resources with each call
 
 ---
 
 ### Endpoint / Url
 
-Endpoint is one end of a communication channel. Often this would be represented as a URL of a server or service.
+The endpoint is one end of a communication channel. Often this would be represented as a URL of a server or service.
 
 
 __Root-endpoint__: `https://localhost:5678/api`
@@ -191,6 +196,13 @@ __Query parameters__: `?query1=value1&query2=value2`
 ----
 
 #### Example
+
+Get all users:
+```txt
+http://localhost:5678/api/users/
+```
+
+--
 
 Get users with id 1:
 ```txt
@@ -321,7 +333,7 @@ $ curl -H "Accept: application/json" https://api.github.com --verbose
 * __Accept__ - client tells what kind of data is requested.
  * `ACCEPT: application/json`
 
-* __Content-Type__ - in request client tells type of the body. In response server tells the type of the response body.
+* __Content-Type__ - in the request client tells the type of the body. In response, server tells the type of the response body.
  * `CONTENT-TYPE: application/vnd.com.example.customer+xml`
 
 * __Allow__ - OPTIONS method return list of allowed methods. 
@@ -345,13 +357,13 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
 
 ### Body
 
-Body contains information you want to be sent to the server.
+The body contains information you want to be sent to the server.
 
 --
 
 JSON (JavaScript Object Notation) is a common format for sending and requesting data through a REST API.
 
-This option is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
+Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 
 ```json
 {
@@ -363,7 +375,7 @@ This option is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ request
 
 ???
 
-* Other: strucutured formdata, xmld, binary
+* Other: structured form-data, xmld, binary
 ---
 
 ### Query operations
@@ -383,10 +395,25 @@ This option is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ request
 * __Filter operators__: 
  * `GET /companies?revenue_gt=20000000`
 
+
+* __Slicing / Paging operators__: 
+ * `GET /companies?page=10`
+
+
+--
+
+* Links
+  * https://github.com/ttu/dotnet-fake-json-server#sort
+  * https://github.com/ttu/dotnet-fake-json-server#filter
+  * https://github.com/ttu/dotnet-fake-json-server#filter-operators
+  * https://github.com/ttu/dotnet-fake-json-server#slice
+
 ???
 
 * No standards
 * Show from GitHub
+* _asc = ascending, _lt = less than, _gt = greater than
+* Paging is sometimes done with DB "hash key", which is id to the last item in the page 
 
 ---
 
@@ -468,8 +495,9 @@ This option is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ request
 ???
 
 * Created might have new id in response and location in headers
-* 303 See Other used when async job is ready and response has a location header to new resource
-* 4xx codes are used to tell the client that a fault has taken place on THEIR side. They should not retransmit the same request again, but fix the error first.
+* 303 See Other used when the async job is ready and the response has a location header to a new resource
+* 4xx codes are used to tell the client that a fault has taken place on THEIR side. They should not re-transmit the same request again but fix the error first.
+* 404 Not Found can be from the wrong URL or server return if data is not found
 ---
 
 ### Correct codes for methods
@@ -554,16 +582,16 @@ Different patch formats:
 ```
 
 ???
-* If a library supports PATCH, then easy to take in use
+* If a library supports PATCH, then easy to take into use
 ---
 
 ### API Versioning
 
 ##### No Versioning
 
-- Start with this
-- Adding and removing fields from return value might not require versioning if client can handle it
-- Bigger changes require new version
+- Common to start without versioning
+- Adding and removing fields from return value might not require versioning if the client can handle it
+- Bigger changes require a new version
 --
 
 
@@ -598,7 +626,7 @@ Custom-Header: api-version=3
 
 ## Safe Methods
 
-Method is safe if it doesn't alter the state of the server (read-only).
+The method is safe if it doesn't alter the state of the server (read-only).
 
 --
 
@@ -610,45 +638,45 @@ Common __unsafe methods:__ PUT, DELETE, POST
 
 * The client doesn't request any server change itself, and therefore won't create an unnecessary load or burden for the server.
 
-* Browsers can call safe methods without fearing to cause any harm to the server. This allows them to perform activities like pre-fetching without risk.
+* Browsers can call safe methods without fearing causing any harm to the server. This allows them to perform activities like pre-fetching without risk.
 
 --
 
-GET methods shouldn't cause too much load on the server as requester might assume that it is safe to make multiple calls.
+GET methods shouldn't cause too much load on the server as the requester might assume that it is safe to make multiple calls.
 
 ---
 
 ## Idempotency
 
-Method is __idempotent__ if an __identical__ request can be made __once or several times__ in a row with the same effect while leaving the server in the same state.
+The method is __idempotent__ if an __identical__ request can be made __once or several times__ in a row with the same effect while leaving the server in the same state.
 
 --
 
-An idempotent method should not have any side-effects (except for keeping statistics). 
+An idempotent method should not have any side effects (except for updating statistics/logs). 
 
---
-
-__IDEMPOTENT:__ GET, HEAD, PUT, DELETE
+__IDEMPOTENT:__ GET, HEAD, PUT, PATCH, DELETE
 
 __NOT:__ POST
 
 --
 
 To be idempotent, only the actual back-end state of the server is considered. The status code returned by each request may differ: 
-* The first call of a DELETE will likely return a 200
-* Successive ones will likely return a 404
+* PATCH / DELETE
+  * The first call of a will likely return a 200
+  * Successive ones will likely return a 404 or error
 
 ???
 
-* If implemented correctly. Never trust.
-
+* Idempotent if implemented correctly. Never trust.
+* POST is not as it will create a new record on each request
+* Most PATCH operations always have the same response, some can return an error on successive calls (e.g. move)
 ---
 
-## Caching & Mid Air Collisions
+## Caching & Mid-Air Collisions
 
-__Caching__ saves server for sending payload if client has already most recent version
+__Caching__ saves server for sending payload if the client has already most recent version
 
-__Mid air collisions__ prevent updating data that has already been changed
+__Mid-air collisions__ prevent updating data that has already been changed
 
 --
 
@@ -664,28 +692,28 @@ Both use __The ETag (or entity tag)__ HTTP response header
 --
 
 * __GET__
-  * Verify that data has not changed with `If-None-Match` header
+  * Verify that data has not changed with the `If-None-Match` header
   * Data has not changed: 304 Not Modified
 
 
 --
 
 * __PUT__
-  * Verify that data is still the same as client's original data `If-Match` header
-  * If data is not same: 412 Precondition failed
+  * Verify that data is still the same as the client's original data `If-Match` header
+  * If data is not the same: 412 Precondition failed
 
 ???
 * Show from https://api.github.com/users/ttu
 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
 * These are not so commonly used
-* For ETag GET saves server from sending large payloads
-* PUT rarely used. Last update is always fine.
+* For ETag GET saves the server from sending large payloads
+* PUT is rarely used. The last update is always fine.
 
 ---
 
 ## Errors & Problem Details
 
-There are many ways how APIs return errors. Check from services API documentation how service implements errors.
+There are many ways in how APIs return errors. Check from the service's API documentation how the service implements errors.
 
 E.g. GitHub's response for `404`
 
@@ -731,9 +759,9 @@ Content-Language: en
 }
 ```
 
-Details can have also any number of additional fields. These should be always same for each type.
+Details can have also any number of additional fields. These should be always the same for each type.
 
-If API is designed to communicate with front-end and user locale is known, then title and description should be localized for the client.
+If API is designed to communicate with the front-end and the user locale is known, then the title and description should be localized for the client.
 
 ---
 
@@ -777,14 +805,37 @@ __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a p
 1. Basic Auth
 1. Token
 
+```
+$ curl -H 'X-API-KEY: abcd1234' http://localhost:57602/api
+
+$ curl -u admin:root http://localhost:57602/api
+$ curl -H 'Authorization: Basic YWRtaW46cm9vdA==' http://localhost:57602/api
+
+$ curl -H 'Authorization: Bearer AbCdEf123456' http://localhost:57602/api
+```
+
+How to fetch token example:
+
+https://github.com/ttu/dotnet-fake-json-server#token-authentication
+
+???
+
+* It is not recommended to use Basic Authentication in production as base64 is a reversible encoding
 ---
 
 ## API Security - Protecting Endpoints
 
 1. Caching
-1. Idempotency
+1. Idempotency / fault-tolerant
 1. Prevent multiple same/similar POST requests
+1. CORS
 
+???
+
+* Cache all safe requests
+  * Cache as close to the customer as possible, e.g. CDN, load balancer, service/endpoint, business logic
+* Idempotency: Duplicate requests do not leave the system unstable.
+* Prevent requests on CDN, etc.
 ---
 
 # REST API Maturity Level
@@ -830,9 +881,9 @@ https://martinfowler.com/articles/richardsonMaturityModel.html
 1. Websub
   * Publish/Subscripbe model
 1. Server Sent Events (SSE)
-  * One-way streaming APIs which can be used to send regular, and sustained updates, which can be more efficient than regular polling of an API
+  * One-way streaming APIs can be used to send regular, and sustained updates, which can be more efficient than regular polling of an API
 1. Websockets
-  * Two-way API streams that require data be both sent and received, providing full-duplex communication channels over a single TCP connection
+  * Two-way API streams that require data to be both sent and received, providing full-duplex communication channels over a single TCP connection
 
 ---
 
@@ -857,13 +908,13 @@ https://martinfowler.com/articles/richardsonMaturityModel.html
 
 ### Reality
 
-REST API's are often not actual REST API's, but just requests over HTTP + JSON with REST-like endpoint structure
+REST APIs are often not actual REST APIs, but just requests over HTTP + JSON with REST-like endpoint structure
 
 ---
 
 ## Problems with REST
 
-#### For actions, resource model is not always most understandable way to present what is wanted to preform
+#### For actions, the resource model is not always the most understandable way to present what is wanted to perform
 
 ##### Send shipment notification
   * PUT `/api/shipments`
@@ -889,7 +940,7 @@ Maybe better to use functions over HTTP (Remote Procedure Calls)?
 `/api/send-shipment-notification` and `/api/cancel-task`
 
 ???
-* Have to know what actions will happen when resource is updated
+* Have to know what actions will happen when the resource is updated
 
 ---
 
@@ -916,7 +967,7 @@ JSON is not an important format for internal services
 #### HTTP
 
 HTTP is maybe not the best protocol for modern days
-* 30-year-old protocol that was really only meant to be used for transferring hypermedia documents
+* 30-year-old protocol that was only meant to be used for transferring hypermedia documents
 
 --
 
