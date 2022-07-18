@@ -32,8 +32,9 @@ API Design Best Practices & Hypertext Transfer Protocol (HTTP)
 1. What is REST API?
 1. Response & Requests
 1. Query examples
-1. Implementation
+1. Implementation details
 1. Problems / other options
+
 ---
 
 ## Install
@@ -281,7 +282,7 @@ Path defines the requested resource
 
 * Name of the endpoint defines the action
 * POST method should be used with functions
-* Often returns always 200, even on errors
+* Often returns 200 on success and on errors
 ---
 
 ### REST way
@@ -409,7 +410,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 
 ???
 
-* Other: structured form-data, xmld, binary
+* Other: structured form-data, xml, binary
 ---
 
 ### Query operations
@@ -457,9 +458,20 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 * Return code
 * Body
 
+```
+[Status-Line]
+[Headers]
+
+[Body]
+```
+
 ---
 
-### Headers
+### Status Line & Headers
+
+__Staus line__: HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+
+__Headers__: Property-value pairs that are separated by a colon
 
 ```json
 < HTTP/1.1 200 OK
@@ -491,6 +503,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/
 * __X-RateLimit-Limit__: request limit
 * __Etag__: an identifier for a specific version of a resource
+
 ---
 
 ### Return Codes
@@ -517,6 +530,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 * 401 Unauthorized
 * 403 Forbidden
 * 404 Not Found
+* 422 Unprocessable Entity
 
 --
 
@@ -529,9 +543,11 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 ???
 
 * Created might have new id in response and location in headers
+* 301 Moved not used with REST(?)
 * 303 See Other used when the async job is ready and the response has a location header to a new resource
 * 4xx codes are used to tell the client that a fault has taken place on THEIR side. They should not re-transmit the same request again but fix the error first.
-* 404 Not Found can be from the wrong URL or server return if data is not found
+* 404 Not Found - can be from the wrong URL or server return if data is not found
+* 422 Unprocessable Entity - Data is valid and server understand it, but can't process it for some reaso
 ---
 
 ### Correct codes for methods
@@ -588,7 +604,22 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 
 ---
 
-### PATCH
+## Next topics
+
+1. More on PATCH method
+1. Api Versioning
+1. Safe methods
+1. Idempotency
+1. Caching & Mid-air collisions
+1. Errors & problem details
+1. API Security
+1. Problem Details
+1. HATEOAS
+1. REST API Maturity Level
+
+---
+
+## PATCH
 
 Partial updates for resources. Implementation is often complex, so PUT is used in simple APIs.
 
@@ -619,7 +650,7 @@ Different patch formats:
 * If a library supports PATCH, then easy to take into use
 ---
 
-### API Versioning
+## API Versioning
 
 ##### No Versioning
 
@@ -835,11 +866,11 @@ __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a p
 
 ## API Security - Authentication
 
-1. API KEY
-1. Basic Auth
-1. Token
+* API KEY
+* Basic Auth
+* Token
 
-```
+```sh
 $ curl -H 'X-API-KEY: abcd1234' http://localhost:57602/api
 
 $ curl -u admin:root http://localhost:57602/api
@@ -872,7 +903,7 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
 * Prevent requests on CDN, etc.
 ---
 
-# REST API Maturity Level
+## REST API Maturity Level
 
 Richardson Maturity Model
 
@@ -894,8 +925,9 @@ https://martinfowler.com/articles/richardsonMaturityModel.html
 
 1. SOAP
   * SOAP is an XML message format used in Web service interactions. SOAP messages are typically sent over HTTP or JMS, but other transport protocols can be used. The use of SOAP in a specific Web service is described by a WSDL definition.
-1. XML & JSON RPC
+1. RPC
   * RPC (Remote procedure call) is like a remote function call
+  * JSON/XML/HTTP RPC
   * e.g. https://api.slack.com/web
 1. API Query Layers
   * OData
@@ -905,6 +937,12 @@ https://martinfowler.com/articles/richardsonMaturityModel.html
     * http://jsonapi.org/examples/
   * Siren (application/vnd.siren+json)
 
+???
+
+* Frameworks that create CRUD for DB
+  * https://postgrest.org/en/stable/
+  * Hasura, POstgraphile 
+    * https://www.moesif.com/blog/graphql/technical/Ways-To-Add-GraphQL-To-Your-Postgres-Database-Comparing-Hasura-Prisma-and-Others/
 ---
 
 ## Other APIs - Event
@@ -932,11 +970,11 @@ https://martinfowler.com/articles/richardsonMaturityModel.html
 
 ## Problems with REST
 
-* No one follows standards
-* No more precise specifications
-* Just a vague "RESTful philosophy"
-* Prone to endless metaphysical debates
-* Many workarounds
+* Standards are followed poorly
+* No precise specifications
+  * Just a vague "RESTful philosophy"
+  * Prone to endless debates
+* Many ways to achieve almost correct solutions
 
 --
 
