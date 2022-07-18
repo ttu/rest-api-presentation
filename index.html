@@ -458,7 +458,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 * Return code
 * Body
 
-```
+```json
 [Status-Line]
 [Headers]
 
@@ -604,50 +604,70 @@ __Headers__: Property-value pairs that are separated by a colon
 
 ---
 
+## REST API Maturity Level
+
+Richardson Maturity Model
+
+0. HTTP
+1. Resources
+2. HTTP Verbs
+3. HATEOAS
+
+https://martinfowler.com/articles/richardsonMaturityModel.html
+
+???
+ 
+* https://blog.restcase.com/4-maturity-levels-of-rest-api-design/
+* Some might add versioning to the list
+
+---
+
+## HATEOAS
+
+__H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a principle that hypertext links should be used to create a better navigation through the API.
+
+```json
+{
+  "id": 711,
+  "manufacturer": "bmw",
+  "model": "X5",
+  "seats": 5,
+  "drivers": [
+    {
+      "id": "23",
+      "name": "Stefan Jauker",
+      "links": [
+        {
+          "rel": "self",
+          "href": "/api/v1/drivers/23"
+        },
+        {
+          "rel": "address",
+          "href": "/api/v1/drivers/23/address"
+        }
+      ]
+    }
+  ]
+}
+```
+
+???
+
+* Client doesn't need to know how to interact with an application for different actions, as all the metadata will be embedded in responses from the server.
+
+---
+
 ## Next topics
 
-1. More on PATCH method
 1. Api Versioning
+1. More on PATCH method
 1. Safe methods
 1. Idempotency
 1. Caching & Mid-air collisions
 1. Errors & problem details
 1. API Security
 1. Problem Details
-1. HATEOAS
-1. REST API Maturity Level
 
----
-
-## PATCH
-
-Partial updates for resources. Implementation is often complex, so PUT is used in simple APIs.
-
-Different patch formats:
-
-#### [Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396)
-
-```json
-{
-  "baz":"bar",
-  "hello: {
-    "foo": null
-  }
-}
-```
-
-#### [JSON Patch](http://jsonpatch.com/)
-
-```json
-[
-  { "op": "replace", "path": "/baz", "value": "boo" },
-  { "op": "add", "path": "/hello", "value": ["world"] },
-  { "op": "remove", "path": "/foo" }
-]
-```
-
-???
-* If a library supports PATCH, then easy to take into use
 ---
 
 ## API Versioning
@@ -687,6 +707,40 @@ Custom-Header: api-version=3
 ???
 
 * Github examples have v3 in url
+
+---
+
+## PATCH
+
+Partial updates for resources. Implementation is often complex, so PUT is used in simple APIs.
+
+Different patch formats:
+
+#### [Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396)
+
+```json
+{
+  "baz":"bar",
+  "hello: {
+    "foo": null
+  }
+}
+```
+
+#### [JSON Patch](http://jsonpatch.com/)
+
+```json
+[
+  { "op": "replace", "path": "/baz", "value": "boo" },
+  { "op": "add", "path": "/hello", "value": ["world"] },
+  { "op": "remove", "path": "/foo" }
+]
+```
+
+???
+
+* If a library supports PATCH, then easy to take into use
+
 ---
 
 ## Safe Methods
@@ -735,6 +789,7 @@ To be idempotent, only the actual back-end state of the server is considered. Th
 * Idempotent if implemented correctly. Never trust.
 * POST is not as it will create a new record on each request
 * Most PATCH operations always have the same response, some can return an error on successive calls (e.g. move)
+
 ---
 
 ## Caching & Mid-Air Collisions
@@ -768,6 +823,7 @@ Both use __The ETag (or entity tag)__ HTTP response header
   * If data is not the same: 412 Precondition failed
 
 ???
+
 * Show from https://api.github.com/users/ttu
 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
 * These are not so commonly used
@@ -830,40 +886,6 @@ If API is designed to communicate with the front-end and the user locale is know
 
 ---
 
-## HATEOAS
-
-__H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a principle that hypertext links should be used to create a better navigation through the API.
-
-```json
-{
-  "id": 711,
-  "manufacturer": "bmw",
-  "model": "X5",
-  "seats": 5,
-  "drivers": [
-    {
-      "id": "23",
-      "name": "Stefan Jauker",
-      "links": [
-        {
-          "rel": "self",
-          "href": "/api/v1/drivers/23"
-        },
-        {
-          "rel": "address",
-          "href": "/api/v1/drivers/23/address"
-        }
-      ]
-    }
-  ]
-}
-```
-
-???
-
-* Client doesn't need to know how to interact with an application for different actions, as all the metadata will be embedded in responses from the server.
----
-
 ## API Security - Authentication
 
 * API KEY
@@ -901,24 +923,7 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
   * Cache as close to the customer as possible, e.g. CDN, load balancer, service/endpoint, business logic
 * Idempotency: Duplicate requests do not leave the system unstable.
 * Prevent requests on CDN, etc.
----
 
-## REST API Maturity Level
-
-Richardson Maturity Model
-
-0. HTTP
-1. Resources
-2. HTTP Verbs
-3. HATEOAS
-
-https://martinfowler.com/articles/richardsonMaturityModel.html
-
-
-???
- 
-* https://blog.restcase.com/4-maturity-levels-of-rest-api-design/
-* Some might add versioning to the list
 ---
 
 ## Other APIs - Request / Response
