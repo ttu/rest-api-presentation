@@ -148,7 +148,7 @@ If you implement a REST API, any developer who will use it should be familiar wi
 --
 
 ```json
-[Method] [Endpoint]
+[Method] [Endpoint] [HTTP-Version]
 [Headers]
 [Body]
 ```
@@ -156,11 +156,11 @@ If you implement a REST API, any developer who will use it should be familiar wi
 --
 
 ```txt
-POST https://api.example.com/api/users
-Headers:
+POST /api/users HTTP2
+Host: https://api.example.com
 Authorization: Bearer AbCdEf123456
-CONTENT-TYPE: applicatin/json
-Body:
+CONTENT-TYPE: application/json
+
 { 'name': 'James', 'age': 40 }
 ```
 
@@ -254,11 +254,12 @@ http://localhost:5678/api/users/?city=helsinki
 
 ???
 
-Path defines the requested resource
+* Path defines the requested resource
+* `city=helsinki` is just a convention to defined queries. 
 
 ---
 
-### Functions as endpoints:
+### Functions as endpoints (not REST-way)
 
 * Get companies
  * `/get-companies`
@@ -280,12 +281,13 @@ Path defines the requested resource
 
 ???
 
+* Function as endpoints = remote procedure calls
 * Name of the endpoint defines the action
-* POST method should be used with functions
+* POST method should be used with functions as parameters are in body
 * Often returns 200 on success and on errors
 ---
 
-### REST way
+### REST-way
 
 The URL should only contain resources (nouns) not actions or verbs.
 
@@ -350,32 +352,47 @@ HTTP Headers are property-value pairs that are separated by a colon.
 -----
 
 ```sh
-$ curl -H "Accept: application/json" https://api.github.com --verbose
+$ curl -H "Accept: application/json" https://api.github.com/users --verbose
 ```
 
 ```json
-> GET / HTTP/1.1
+> GET /users HTTP/2
 > Host: api.github.com
-> User-Agent: curl/7.47.0
-> Accept: application/json
+> user-agent: curl/7.68.0
+> accept: application/json
+...
 ```
 
+???
+
+* > is request
+* < is response
 ---
 
 * __Authorization__ - contains user authorization information.
- * `Authorizaation: Bearer azasdasdasf....asfasfasfsa`
+```sh
+Authorizaation: Bearer azasdasdasf....asfasfasfsa
+```
 
 * __Accept__ - client tells what kind of data is requested.
- * `ACCEPT: application/json`
+```sh
+ACCEPT: application/json
+```
 
 * __Content-Type__ - in the request client tells the type of the body. In response, server tells the type of the response body.
- * `CONTENT-TYPE: application/vnd.com.example.customer+xml`
+```sh
+CONTENT-TYPE: application/vnd.com.example.customer+xml
+```
 
 * __Allow__ - OPTIONS method return list of allowed methods. 
- * `Allow: GET POST`
+```sh
+Allow: GET POST
+```
 
 * __Last-Modified__ - server tells a time when it thinks that resource was modified.
- * `Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT`
+```sh
+Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
+```
 
 * And 100 others...
 
@@ -432,7 +449,11 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 
 
 * __Slicing / Paging operators__: 
- * `GET /companies?page=10`
+ * `GET /companies?page=7&pageSize=20`
+
+
+* __Select fields__: 
+ * `GET /companies?fields=familyName,address`
 
 
 --
@@ -442,6 +463,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
   * https://github.com/ttu/dotnet-fake-json-server#filter
   * https://github.com/ttu/dotnet-fake-json-server#filter-operators
   * https://github.com/ttu/dotnet-fake-json-server#slice
+  * https://github.com/ttu/dotnet-fake-json-server#select-fields
 
 ???
 
