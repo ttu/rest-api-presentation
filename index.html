@@ -2,18 +2,25 @@
 <html>
   <head>
     <title>REST API</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <style>
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
       @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-      body { font-family: 'Droid Serif'; }
-      h1, h2, h3 {
-        font-family: 'Yanone Kaffeesatz';
+      body {
+        font-family: "Droid Serif";
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Yanone Kaffeesatz";
         font-weight: normal;
       }
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code,
+      .remark-inline-code {
+        font-family: "Ubuntu Mono";
+      }
     </style>
   </head>
   <body>
@@ -21,7 +28,7 @@
 
 class: center, middle
 
-# REST API
+# HTTP & REST API
 
 API Design Best Practices & Hypertext Transfer Protocol (HTTP)
 
@@ -29,7 +36,11 @@ API Design Best Practices & Hypertext Transfer Protocol (HTTP)
 
 # Agenda
 
-1. What is REST API?
+The majority of concepts presented apply to all APIs that utilize HTTP, not just RESTful APIs.
+
+--
+
+1. What is HTTP & REST API?
 1. Response & Requests
 1. Query examples
 1. Implementation details
@@ -138,7 +149,39 @@ If you implement a REST API, any developer who will use it should be familiar wi
 
 ---
 
-## Request
+## HTTP Request & Response
+
+To view the communication between the client and server, execute the curl command or examine the request timeline in Insomnia.
+```s
+curl https://api.github.com/users/ttu --verbose
+```
+
+1. Connection Establishment
+2. Request and Response
+3. Additional Information
+
+```sh
+* Preparing request to https://api.github.com/users/ttu
+* Current time is 2023-12-06T06:55:05.977Z
+* ...
+> GET /users/ttu HTTP/2
+> Host: api.github.com
+>
+< HTTP/2 200
+< server: GitHub.com
+< date: Wed, 06 Dec 2023 06:46:57 GMT
+< ...
+{
+  "login": "ttu",
+  "node_id": "MDQ6VXNlcjU4OTc4Ng==",
+  ...
+* Received 250 B chunk
+* ...
+```
+
+---
+
+## HTTP Request
 
 * Method
 * Endpoint (route)
@@ -169,7 +212,7 @@ CONTENT-TYPE: application/json
 * With HTTP 1.x everything is plain text
 ---
 
-### Methods
+### HTTP Methods
 
 HTTP defines a set of request methods to indicate the desired action to be performed for a given resource.
 
@@ -345,7 +388,7 @@ NOTE: Show with Insomnia
 
 ---
 
-### Headers
+### HTTP Headers
 
 HTTP Headers are property-value pairs that are separated by a colon.
 
@@ -474,7 +517,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 
 ---
 
-## Response
+## HTTP Response
 
 * Headers
 * Return code
@@ -528,7 +571,7 @@ __Headers__: Property-value pairs that are separated by a colon
 
 ---
 
-### Return Codes
+### HTTP Return Codes
 
 #### 200 Success
 
@@ -1093,12 +1136,17 @@ or just use simple functions as endpoints (RPC).
 * https://developer.github.com/v3/
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
-    </script>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
     <script>
       remark.macros.scale = function (percentage) {
         var url = this;
-        return '<div style="text-align: center;"><img src="' + url + '" style="width: ' + percentage + '" /></div>';
+        return (
+          '<div style="text-align: center;"><img src="' +
+          url +
+          '" style="width: ' +
+          percentage +
+          '" /></div>'
+        );
       };
 
       var slideshow = remark.create();
