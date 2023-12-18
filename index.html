@@ -577,6 +577,7 @@ __Headers__: Property-value pairs that are separated by a colon
 
 * 200 OK
 * 201 Created
+* 202 Accepted
 * 204 No Content
 
 --
@@ -586,8 +587,14 @@ __Headers__: Property-value pairs that are separated by a colon
 
 * 304 Not Modified
 
---
+???
 
+* Created might have new id in response and location in headers
+* Accepted mainly used with async functionality
+
+---
+
+### HTTP Return Codes
 
 #### 400 Client Error
 
@@ -595,6 +602,8 @@ __Headers__: Property-value pairs that are separated by a colon
 * 401 Unauthorized
 * 403 Forbidden
 * 404 Not Found
+* 405 Not Allowed
+* 409 Conflict
 * 422 Unprocessable Entity
 
 --
@@ -607,11 +616,12 @@ __Headers__: Property-value pairs that are separated by a colon
 
 ???
 
-* Created might have new id in response and location in headers
 * 301 Moved not used with REST(?)
 * 303 See Other used when the async job is ready and the response has a location header to a new resource
 * 4xx codes are used to tell the client that a fault has taken place on THEIR side. They should not re-transmit the same request again but fix the error first.
 * 404 Not Found - can be from the wrong URL or server return if data is not found
+* 405 Not Allowed - method not allowed for endpoint
+* 409 Conflict - conflict with current state, concurrent requests, data already exists, already modified
 * 422 Unprocessable Entity - Data is valid and server understand it, but can't process it for some reaso
 ---
 
@@ -620,9 +630,9 @@ __Headers__: Property-value pairs that are separated by a colon
 * `GET /api/:collection/:id`
 
 ```
-200 OK          : Item is found
-400 Bad Request : Collection is not found
-404 Not Found   : Item is not found
+200 OK                    : Item is found
+400 Bad Request           : Collection is not found
+404 Not Found             : Item is not found
 ```
 
 --
@@ -631,8 +641,10 @@ __Headers__: Property-value pairs that are separated by a colon
 * `POST /api/:collection`
 
 ```
-201 Created     : New item is created
-400 Bad Request : New item is null
+201 Created               : New item is created
+400 Bad Request           : New item is null
+409 Conflict              : Resource already exists
+422 Unprocessable Entity  : Invalid data, business rule violation
 ```
 
 --
@@ -641,20 +653,28 @@ __Headers__: Property-value pairs that are separated by a colon
 * `PUT /api/:collection/:id`
 
 ```
-204 No Content  : Item is replaced
-400 Bad Request : Item is null
-404 Not Found   : Item is not found
+204 No Content            : Item is replaced
+400 Bad Request           : Item is null
+404 Not Found             : Item is not found
+409 Conflict              : Updated with conflicting data
+422 Unprocessable Entity  : Invalid data, business rule violation
 ```
 
---
+???
 
+* 422 vs 400: request is syntatically correct, bus server is unable to process it 
+---
+
+### Correct codes for methods
 
 * `PATCH /api/:collection/:id`
 
 ```
-204 No Content  : Item updated
-400 Bad Request : PATCH is empty / not valid
-404 Not Found   : Item is not found
+204 No Content            : Item updated
+400 Bad Request           : PATCH is empty / not valid
+404 Not Found             : Item is not found
+409 Conflict              : Updated with conflicting data
+422 Unprocessable Entity  : Invalid data, business rule violation
 ```
 
 --
@@ -663,8 +683,8 @@ __Headers__: Property-value pairs that are separated by a colon
 * `DELETE /api/:collection/:id`
 
 ```
-204 No Content  : Item deleted
-404 Not Found   : Item is not found
+204 No Content            : Item deleted
+404 Not Found             : Item is not found
 ```
 
 ---
@@ -979,7 +999,8 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
 
 1. Caching
 1. Idempotency / fault-tolerant
-1. Prevent multiple same/similar POST requests
+1. Rate limiting
+1. Duplicate identical request detection / prevention
 1. CORS
 
 ???
@@ -987,6 +1008,8 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
 * Cache all safe requests
   * Cache as close to the customer as possible, e.g. CDN, load balancer, service/endpoint, business logic
 * Idempotency: Duplicate requests do not leave the system unstable.
+* Rate limit requests from same IP
+* Prevent similar POST requests, e.g. creation of new contact requests with same email etc.
 * Prevent requests on CDN, etc.
 
 ---
