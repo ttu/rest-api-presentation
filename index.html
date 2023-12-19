@@ -997,11 +997,44 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
 
 ## API Security - Protecting Endpoints
 
-1. Caching
-1. Idempotency / fault-tolerant
-1. Rate limiting
-1. Duplicate identical request detection / prevention
-1. CORS
+__Caching__
+
+* Cache all safe (GET) requests for reduced latency and improved performance
+    * Non-customer specific requests for extended durations to minimize frequent database access
+    * Customer-specific requests for shorter durations to ensure up-to-date data
+* Prioritize caching closer to the customer for optimized delivery times
+    * ```(CDN > load balancer > endpoint > BL)```
+
+--
+
+__Duplicate identical request detection and prevention__
+  * Prevent users from overwhelming the service with repetitive requests that consume unnecessary resources
+  * Implement request deduplication techniques to identify and handle identical requests effectively
+
+--
+
+__Idempotency__
+  * Employ idempotency mechanisms to ensure that multiple requests for the same action are treated as a single transaction
+
+---
+
+## API Security - Protecting Endpoints
+
+__Rate limiting__
+  * Establish rate limits to regulate the frequency at which users can access API resources
+  * Define appropriate rate limits based on user roles, access patterns, and resource requirements
+
+--
+
+__Fault tolerance__
+  * Enhance the system's resilience to unexpected errors and unexpected conditions
+    * Implement error handling mechanisms to gracefully handle unhandled exceptions without causing system crashes
+    * Introduce timeouts for requests to external systems to prevent cascading failures
+
+--
+
+__Configure Cross-origin resource sharing (CORS)__
+  * Configure Cross-Origin Resource Sharing (CORS) to specify which websites or domains are authorized to access the API
 
 ???
 
@@ -1068,12 +1101,39 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
   * Just a vague "RESTful philosophy"
   * Prone to endless debates
 * Many ways to achieve almost correct solutions
+* REST is often a thin wrapper around database
+  * Business logic is shifted to client
 
 --
 
 ### Reality
 
 REST APIs are often not actual REST APIs, but just requests over HTTP + JSON with REST-like endpoint structure
+
+---
+
+## Problems with REST
+
+#### API should model business processes
+
+Modeling can be hard with REST. 
+
+Mixed resource names and actions make sometimes more sense.
+
+```sh
+# Get contracts with id
+GET  /api/contracts/{contract_id}
+
+# Get contracts with data from other resources
+GET  /api/contracts/contracts-with-all-required-data-bla-bla
+
+# Create new contract
+POST /api/contracts/
+
+# Create report of terminated contract
+# Doesn't support other formats than csv
+GET  /api/contracts/terminated-contracts-report-csv
+```
 
 ---
 
