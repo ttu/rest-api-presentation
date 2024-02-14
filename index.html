@@ -749,6 +749,7 @@ __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a p
 1. Safe methods
 1. Idempotency
 1. Caching & Mid-air collisions
+1. GET & body
 1. Errors & problem details
 1. API Security
 1. Problem Details
@@ -914,6 +915,27 @@ Both use __The ETag (or entity tag)__ HTTP response header
 * These are not so commonly used
 * For ETag GET saves the server from sending large payloads
 * PUT is rarely used. The last update is always fine.
+
+---
+
+## GET & body
+
+GET requests should not have a body.
+
+* Server might ignore the body
+  * Include proxies, load balancers etc.
+* GET requests are often cached
+  * Body is not part of the cache key
+  * Body might not be cached at all
+* Clients do not support sending body with GET
+
+--
+
+Use POST-method. Name the endpoint as a function or add good description.
+
+--
+
+Coming at some point: [QUERY-method](https://httpwg.org/http-extensions/draft-ietf-httpbis-safe-method-w-body.html)
 
 ---
 
