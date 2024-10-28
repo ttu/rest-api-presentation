@@ -50,9 +50,15 @@ The majority of concepts presented apply to all APIs that utilize HTTP, not just
 
 ## Install
 
-### Insomnia
+### API testing tool
 
-[Insomnia API Client](https://github.com/Kong/insomnia)
+[Insomnia]((https://insomnia.rest/), [Yaak](https://yaak.app/) etc.
+
+Workspaces are in Insomnia format. Unfortunately, [Postman](https://www.postman.com/) doesn't support it. Use AI to convert it.
+
+Import _Fake JSON REST API_: [URL](https://raw.githubusercontent.com/ttu/dotnet-fake-json-server/master/docs/FakeServer_Insomnia_Workspace.json)
+
+Import _GitHub V3_: [URL](https://raw.githubusercontent.com/ttu/rest-api-presentation/main/github-workspace.json)
 
 ### Fake JSON REST API
 
@@ -65,12 +71,6 @@ docker run -it -p 57602:57602 --name fakeapi fakeapi
 
 Open [http://localhost:57602/swagger/](http://localhost:57602/swagger/)
 
-#### Insomnia Workspaces
-
-Import _Fake JSON REST API_ from [URL](https://raw.githubusercontent.com/ttu/dotnet-fake-json-server/master/docs/FakeServer_Insomnia_Workspace.json)
-
-Import _GitHub V3_ from [URL](https://raw.githubusercontent.com/ttu/rest-api-presentation/main/github-workspace.json)
-
 ---
 
 ## Hypertext Transfer Protocol (HTTP)
@@ -80,9 +80,7 @@ An application protocol designed to transfer information between networked devic
 
 Runs on top of other layers of the network protocol stack.
 
-
 --
-
 
 HTTP defines:
 * How messages are formed and transmitted 
@@ -1163,19 +1161,19 @@ GET  /api/contracts/terminated-contracts-report-csv
 
 #### For actions, the resource model is not always the most understandable way to present what is wanted to perform
 
-##### Send shipment notification
-  * PUT `/api/shipments`
-    * Update resource's send_notification
-  * POST `/api/shipments/send-notifications`
-    * Create new send_notification resource 
+##### Shipment status notification
+  * PUT `/api/shipments/{id}`
+    * Update resource's status_notification
+  * POST `/api/shipments/{id}/status-notifications`
+    * Create new status_notification resource 
 
 --
 
 
 ##### Cancel a task
-  * PUT `/api/tasks`
+  * PUT `/api/tasks/{id}`
     * Set active-property from the task resource to false
-  * DELETE `/api/tasks`
+  * DELETE `/api/tasks/{id}`
     * Delete the task resource
 --
 
