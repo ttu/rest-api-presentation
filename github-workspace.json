@@ -1,397 +1,525 @@
 {
-	"_type": "export",
-	"__export_format": 4,
-	"__export_date": "2024-10-28T11:52:01.261Z",
-	"__export_source": "insomnia.desktop.app:v10.1.1",
-	"resources": [
+	"info": {
+		"_postman_id": "338068fa-a5b4-4fd2-8aa5-6a2fa5c767d2",
+		"name": "GitHub Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "689536"
+	},
+	"item": [
 		{
-			"_id": "req_d0e43968089743c78dc489789fb8f91f",
-			"parentId": "wrk_scratchpad",
-			"modified": 1730116156696,
-			"created": 1553524356795,
-			"url": "https://api.github.com/users",
-			"name": "/users",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1535774090805,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "wrk_scratchpad",
-			"parentId": null,
-			"modified": 1701843048085,
-			"created": 1701843048085,
-			"name": "Scratch Pad",
-			"description": "",
-			"scope": "collection",
-			"_type": "workspace"
-		},
-		{
-			"_id": "req_32bd41293105464881f5ed882609ba69",
-			"parentId": "wrk_scratchpad",
-			"modified": 1730115828737,
-			"created": 1518071415536,
-			"url": "https://api.github.com/users/ttu",
-			"name": "/users/ttu",
-			"description": "",
-			"method": "HEAD",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1535774090705,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_0a0cf643c04e4ab39946d8e7f621b72c",
-			"parentId": "wrk_scratchpad",
-			"modified": 1539771204604,
-			"created": 1518072049293,
-			"url": "https://api.github.com/users/ttu",
-			"name": "/users/ttu",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517858659810,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_8cee7cc43feb47acbd2fa862ff7d5035",
-			"parentId": "wrk_scratchpad",
-			"modified": 1553524443193,
-			"created": 1518071477427,
-			"url": "https://api.github.com/users/ttu/repos",
-			"name": "/users/ttu/repos",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517805470878.5,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_8f5511a7637a40cbbfb53c6e09f16c7e",
-			"parentId": "wrk_scratchpad",
-			"modified": 1553583184559,
-			"created": 1518100576814,
-			"url": "https://api.github.com/users/ttu/repos?sort=pushed",
-			"name": "/users/ttu/repos?sort=pushed",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517798822262.0625,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_5c0e529bfd554a428d251c60e1fe4643",
-			"parentId": "wrk_scratchpad",
-			"modified": 1553524616804,
-			"created": 1553524463093,
-			"url": "https://api.github.com/repos/ttu/json-flatfile-datastore",
-			"name": "/repos/ttu/json-flatfile-datastore",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517792173645.625,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_2c09812b81ef4c21a7656446489b3bb4",
-			"parentId": "wrk_scratchpad",
-			"modified": 1730116170118,
-			"created": 1553524705169,
-			"url": "https://api.github.com/repos/ttu",
-			"name": "/repos/ttu (not found)",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517777214258.6406,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_6623928977d248878a5acdd06aecf271",
-			"parentId": "wrk_scratchpad",
-			"modified": 1553583201355,
-			"created": 1553582012639,
-			"url": "https://api.github.com/repos/85160784",
-			"name": "/repos/85160784  (not found)",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517762254871.6562,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_852747d3c9dd45648a8f7e76a6caef46",
-			"parentId": "wrk_scratchpad",
-			"modified": 1518076226157,
-			"created": 1518072174874,
-			"url": "https://api.github.com/repositories",
-			"name": "/repositories",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517752281947,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_ff137e55394746ec9a4d3745133a35fb",
-			"parentId": "wrk_scratchpad",
-			"modified": 1553582041385,
-			"created": 1518076243284,
-			"url": "https://api.github.com/repositories/85160784",
-			"name": "/repositories/85160784",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1517699093015.5,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_9c51de8ec72e4b70a432eb3926ed4417",
-			"parentId": "fld_2d014b63a6384ec7a049ab93f3d39083",
-			"modified": 1553583153069,
-			"created": 1553582323059,
-			"url": "https://api.github.com/user",
-			"name": "Get authenticated user with pregenerated token",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [
-				{
-					"id": "pair_0237f77cac6d4a74a1ff6f7cab43536c",
-					"name": "Authorization",
-					"value": "token 95f8a585aa43677e338840e12f3eda406ef0e56e"
-				},
-				{
-					"id": "pair_bbcfbb1ba48f46e1836644354a7d59ee",
-					"name": "",
-					"value": ""
-				}
-			],
-			"authentication": {},
-			"metaSortKey": -1535774090705,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "fld_2d014b63a6384ec7a049ab93f3d39083",
-			"parentId": "wrk_scratchpad",
-			"modified": 1730115833310,
-			"created": 1553583143737,
 			"name": "Authentication",
-			"description": "",
-			"environment": {},
-			"environmentPropertyOrder": null,
-			"metaSortKey": -1517699092915.5,
-			"_type": "request_group"
+			"item": [
+				{
+					"name": "Get authenticated user with pregenerated token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token 95f8a585aa43677e338840e12f3eda406ef0e56e"
+							},
+							{
+								"key": "",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "https://api.github.com/user",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get App access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token 95f8a585aa43677e338840e12f3eda406ef0e56e"
+							},
+							{
+								"key": "",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "client_id ",
+									"value": "app_name"
+								},
+								{
+									"key": "client_secret",
+									"value": "app_password"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://github.com/login/oauth/access_token",
+							"protocol": "https",
+							"host": [
+								"github",
+								"com"
+							],
+							"path": [
+								"login",
+								"oauth",
+								"access_token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basic auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "app_password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "app_user",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"_id": "req_af1dc37f4a06407184812923b4526d6c",
-			"parentId": "fld_2d014b63a6384ec7a049ab93f3d39083",
-			"modified": 1553583156320,
-			"created": 1553582766249,
-			"url": "https://github.com/login/oauth/access_token",
-			"name": "Get App access token",
-			"description": "",
-			"method": "POST",
-			"body": {
-				"mimeType": "multipart/form-data",
-				"params": [
-					{
-						"id": "pair_d827b9142c4f4696a47d4741d35f1c59",
-						"name": "client_id ",
-						"value": "app_name"
-					},
-					{
-						"id": "pair_bb74acc393d445249ea1ef865c6ba857",
-						"name": "client_secret",
-						"value": "app_password"
+			"name": "/users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
 					}
-				]
-			},
-			"parameters": [],
-			"headers": [
-				{
-					"id": "pair_0237f77cac6d4a74a1ff6f7cab43536c",
-					"name": "Authorization",
-					"value": "token 95f8a585aa43677e338840e12f3eda406ef0e56e"
-				},
-				{
-					"id": "pair_bbcfbb1ba48f46e1836644354a7d59ee",
-					"name": "",
-					"value": ""
-				},
-				{
-					"id": "pair_80842224db764d3d813ce6f0d434b3f5",
-					"name": "Content-Type",
-					"value": "multipart/form-data"
 				}
 			],
-			"authentication": {},
-			"metaSortKey": -1535774090655,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
-		},
-		{
-			"_id": "req_211e095177a541219c0cd0229e283676",
-			"parentId": "fld_2d014b63a6384ec7a049ab93f3d39083",
-			"modified": 1730116293200,
-			"created": 1553582934836,
-			"url": "https://api.github.com",
-			"name": "Basic auth",
-			"description": "",
-			"method": "POST",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {
-				"disabled": false,
-				"password": "app_password",
-				"type": "basic",
-				"username": "app_user"
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
 			},
-			"metaSortKey": -1535774090605,
-			"isPrivate": false,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingRebuildPath": true,
-			"settingFollowRedirects": "global",
-			"_type": "request"
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
 		},
 		{
-			"_id": "env_99d30891da4bdcebc63947a8fc17f076de878684",
-			"parentId": "wrk_scratchpad",
-			"modified": 1730115757260,
-			"created": 1730115757260,
-			"name": "Base Environment",
-			"data": {},
-			"dataPropertyOrder": null,
-			"color": null,
-			"isPrivate": false,
-			"metaSortKey": 1730115757260,
-			"_type": "environment"
+			"name": "/users/ttu",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/ttu",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"ttu"
+					]
+				}
+			},
+			"response": []
 		},
 		{
-			"_id": "jar_99d30891da4bdcebc63947a8fc17f076de878684",
-			"parentId": "wrk_scratchpad",
-			"modified": 1730115757262,
-			"created": 1730115757262,
-			"name": "Default Jar",
-			"cookies": [],
-			"_type": "cookie_jar"
+			"name": "/users/ttu",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/ttu",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"ttu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users/ttu/repos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/ttu/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"ttu",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users/ttu/repos?sort=pushed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/ttu/repos?sort=pushed",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"ttu",
+						"repos"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "pushed"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/repos/ttu/json-flatfile-datastore",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/ttu/json-flatfile-datastore",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"ttu",
+						"json-flatfile-datastore"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/repos/ttu (not found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/ttu",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"ttu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/repos/85160784  (not found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/85160784",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"85160784"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/repositories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repositories",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repositories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/repositories/85160784",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repositories/85160784",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repositories",
+						"85160784"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
