@@ -34,7 +34,7 @@ API Design Best Practices & Hypertext Transfer Protocol (HTTP)
 
 ---
 
-# Agenda
+### Agenda
 
 The majority of concepts presented apply to all APIs that utilize HTTP, not just RESTful APIs.
 
@@ -48,9 +48,9 @@ The majority of concepts presented apply to all APIs that utilize HTTP, not just
 
 ---
 
-## Install
+### Install
 
-### API testing tool
+#### API Testing Tool
 
 [Postman](https://www.postman.com/), [Insomnia]((https://insomnia.rest/), [Yaak](https://yaak.app/) etc.
 
@@ -58,7 +58,7 @@ Import _Fake JSON REST API_: [URL](https://raw.githubusercontent.com/ttu/dotnet-
 
 Import _GitHub V3_: [URL](https://raw.githubusercontent.com/ttu/rest-api-presentation/main/github-workspace.json)
 
-### Fake JSON REST API
+#### Fake JSON REST API
 
 ```sh
 git clone https://github.com/ttu/dotnet-fake-json-server.git
@@ -71,7 +71,7 @@ Open [http://localhost:57602/swagger/](http://localhost:57602/swagger/)
 
 ---
 
-## Hypertext Transfer Protocol (HTTP)
+### Hypertext Transfer Protocol (HTTP)
 
 
 An application protocol designed to transfer information between networked devices.
@@ -91,7 +91,7 @@ HTTP defines:
 
 ---
 
-## Application Programming Interface (API)
+### Application Programming Interface (API)
 
 __API__ is a set of definitions and protocols to build and integrate application software
 
@@ -113,7 +113,7 @@ Different APIs:
 ---
 
 
-## REST
+### REST
 
 __RE__presentational __S__tate __T__ransfer
 
@@ -131,7 +131,7 @@ __RE__presentational __S__tate __T__ransfer
 
 ---
 
-## REST API
+### REST API
 
 A REST API defines a set of functions in which developers can perform requests and receive responses via HTTP protocol.
 
@@ -145,10 +145,10 @@ If you implement a REST API, any developer who will use it should be familiar wi
 
 ---
 
-## HTTP Request & Response
+### HTTP Request & Response
 
-To view the communication between the client and server, execute the curl command or examine the request timeline in Insomnia.
-```s
+To view the communication between the client and server, execute the curl command or examine the request timeline in API client.
+```sh
 curl https://api.github.com/users/ttu --verbose
 ```
 
@@ -177,7 +177,7 @@ curl https://api.github.com/users/ttu --verbose
 
 ---
 
-## HTTP Request
+### HTTP Request
 
 * Method
 * Endpoint (route)
@@ -215,15 +215,15 @@ HTTP defines a set of request methods to indicate the desired action to be perfo
 --
 
 * __GET__
-  * Fetch
+  * Fetch resource
 * __POST__
-  * Create
+  * Create resource
 * __PUT__
-  * Replace (Update)
+  * Replace resource
 * __DELETE__
-  * Delete
+  * Delete resource
 * __PATCH__
-  * Update
+  * Update resource
 
 --
 
@@ -244,13 +244,14 @@ HTTP defines a set of request methods to indicate the desired action to be perfo
 * OPTIONS: https://github.com/ttu/dotnet-fake-json-server#options-method
   * Rarely used
 * Request method can be
+  * Request should only perform desired action
   * Safe
      * Won't make changes to any data (except logging etc.)
   * Cacheable
   * Idempotent
      * making multiple identical requests has the same effect as making a single request
      * GET, PUT, DELETE, PATCH
-     * POST creates new resources with each call
+  * POST creates new resources with each call
 
 ---
 
@@ -293,12 +294,15 @@ http://localhost:5678/api/users/?city=helsinki
 
 ???
 
+* Protocol: http(s)
+* Hostname: localhost
+* Port: 5678
 * Path defines the requested resource
 * `city=helsinki` is just a convention to defined queries. 
 
 ---
 
-### Functions as endpoints (not REST-way)
+### Functions as Endpoints (Not the REST-Way)
 
 * Get companies
  * `/get-companies`
@@ -326,7 +330,7 @@ http://localhost:5678/api/users/?city=helsinki
 * Often returns 200 on success and on errors
 ---
 
-### REST-way
+### REST-Way
 
 The URL should only contain resources (nouns) not actions or verbs.
 
@@ -357,7 +361,7 @@ HTTP methods define the action.
 
 ---
 
-### Endpoint examples from GitHub
+### Endpoint Examples from GitHub
 
 __root-endpoint__: `https://api.github.com/`
 
@@ -380,7 +384,7 @@ https://developer.github.com/v3/repos/#get
 
 ???
 
-NOTE: Show with Insomnia
+NOTE: Show with API client
 
 ---
 
@@ -513,7 +517,7 @@ Body is only used with __POST__, __PUT__, __PATCH__ or __DELETE__ requests.
 
 ---
 
-## HTTP Response
+### HTTP Response
 
 * Headers
 * Return code
@@ -621,7 +625,7 @@ __Headers__: Property-value pairs that are separated by a colon
 * 422 Unprocessable Entity - Data is valid and server understand it, but can't process it for some reaso
 ---
 
-### Correct codes for methods
+### Correct Codes for Methods
 
 * `GET /api/:collection/:id`
 
@@ -661,7 +665,7 @@ __Headers__: Property-value pairs that are separated by a colon
 * 422 vs 400: request is syntatically correct, bus server is unable to process it 
 ---
 
-### Correct codes for methods
+### Correct Codes for Methods
 
 * `PATCH /api/:collection/:id`
 
@@ -685,7 +689,7 @@ __Headers__: Property-value pairs that are separated by a colon
 
 ---
 
-## REST API Maturity Level
+### REST API Maturity Level
 
 Richardson Maturity Model
 
@@ -703,7 +707,7 @@ https://martinfowler.com/articles/richardsonMaturityModel.html
 
 ---
 
-## HATEOAS
+### HATEOAS
 
 __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a principle that hypertext links should be used to create a better navigation through the API.
 
@@ -738,7 +742,7 @@ __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a p
 
 ---
 
-## Next topics
+### Next Topics
 
 1. Api Versioning
 1. More on PATCH method
@@ -752,7 +756,7 @@ __H__ypermedia __a__s __t__he __E__ngine __o__f __A__pplication __S__tate is a p
 
 ---
 
-## API Versioning
+### API Versioning
 
 ##### No Versioning
 
@@ -792,7 +796,7 @@ Custom-Header: api-version=3
 
 ---
 
-## PATCH
+### PATCH
 
 Partial updates for resources. Implementation is often complex, so PUT is used in simple APIs.
 
@@ -825,7 +829,7 @@ Different patch formats:
 
 ---
 
-## Safe Methods
+### Safe Methods
 
 The method is safe if it doesn't alter the state of the server (read-only).
 
@@ -847,7 +851,7 @@ GET methods shouldn't cause too much load on the server as the requester might a
 
 ---
 
-## Idempotency
+### Idempotency
 
 The method is __idempotent__ if an __identical__ request can be made __once or several times__ in a row with the same effect while leaving the server in the same state.
 
@@ -874,7 +878,7 @@ To be idempotent, only the actual back-end state of the server is considered. Th
 
 ---
 
-## Caching & Mid-Air Collisions
+### Caching & Mid-Air Collisions
 
 __Caching__ saves server for sending payload if the client has already most recent version
 
@@ -914,7 +918,7 @@ Both use __The ETag (or entity tag)__ HTTP response header
 
 ---
 
-## GET & body
+### GET & Body
 
 GET requests should not have a body.
 
@@ -935,7 +939,7 @@ Coming at some point: [QUERY-method](https://httpwg.org/http-extensions/draft-ie
 
 ---
 
-## Errors & Problem Details
+### Errors & Problem Details
 
 There are many ways in how APIs return errors. Check from the service's API documentation how the service implements errors.
 
@@ -966,7 +970,7 @@ One recommendation is to use [Problem Details](https://tools.ietf.org/html/rfc78
 
 ---
 
-## Problem Details
+### Problem Details
 
 ```json
 HTTP/1.1 403 Forbidden
@@ -989,7 +993,7 @@ If API is designed to communicate with the front-end and the user locale is know
 
 ---
 
-## API Security - Authentication
+### API Security - Authentication
 
 * API KEY
 * Basic Auth
@@ -1013,7 +1017,7 @@ https://github.com/ttu/dotnet-fake-json-server#token-authentication
 * It is not recommended to use Basic Authentication in production as base64 is a reversible encoding
 ---
 
-## API Security - Protecting Endpoints
+### API Security - Protecting Endpoints
 
 __Caching__
 
@@ -1036,7 +1040,7 @@ __Idempotency__
 
 ---
 
-## API Security - Protecting Endpoints
+### API Security - Protecting Endpoints
 
 __Rate limiting__
   * Establish rate limits to regulate the frequency at which users can access API resources
@@ -1065,7 +1069,7 @@ __Configure Cross-origin resource sharing (CORS)__
 
 ---
 
-## Other APIs - Request / Response
+### Other APIs - Request / Response
 
 1. SOAP
   * SOAP is an XML message format used in Web service interactions. SOAP messages are typically sent over HTTP or JMS, but other transport protocols can be used. The use of SOAP in a specific Web service is described by a WSDL definition.
@@ -1089,7 +1093,7 @@ __Configure Cross-origin resource sharing (CORS)__
     * https://www.moesif.com/blog/graphql/technical/Ways-To-Add-GraphQL-To-Your-Postgres-Database-Comparing-Hasura-Prisma-and-Others/
 ---
 
-## Other APIs - Event
+### Other APIs - Event
 
 1. WebHooks
   * Incoming Webhooks are a simple way to post messages from external sources into the service
@@ -1103,7 +1107,7 @@ __Configure Cross-origin resource sharing (CORS)__
 
 ---
 
-## Other APIs - Other
+### Other APIs - Other
 
 1. Kafka / RabbitMQ / ESB / MessageBus
   * Message Buses can also act as APIs
@@ -1112,7 +1116,7 @@ __Configure Cross-origin resource sharing (CORS)__
 
 ---
 
-## Problems with REST
+### Problems with REST
 
 * Standards are followed poorly
 * No precise specifications
@@ -1130,7 +1134,7 @@ REST APIs are often not actual REST APIs, but just requests over HTTP + JSON wit
 
 ---
 
-## Problems with REST
+### Problems with REST
 
 #### API should model business processes
 
@@ -1155,7 +1159,7 @@ GET  /api/contracts/terminated-contracts-report-csv
 
 ---
 
-## Problems with REST
+### Problems with REST
 
 #### For actions, the resource model is not always the most understandable way to present what is wanted to perform
 
@@ -1187,7 +1191,7 @@ Maybe better to use functions over HTTP (Remote Procedure Calls)?
 
 ---
 
-## Problems with REST
+### Problems with REST
 
 #### JSON
 
@@ -1227,7 +1231,7 @@ or just use simple functions as endpoints (RPC).
 * No standards -> lots of opinions -> war
 ---
 
-## References
+### References
 
 * https://medium.freecodecamp.org/rest-is-the-new-soap-97ff6c09896d
 * http://habitatchronicles.com/2017/11/a-slightly-skeptical-perspective-on-rest/
